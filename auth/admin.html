@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin portal of Bike Shop Management System">
+  <title>Admin Portal | Bike Shop</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  
+  <header class="header">
+    <a href="../index.html" class="logo">Bike<span>Shop</span></a>
+    <div class="user-info">
+      <span class="badge admin">Shop Owner / Admin</span>
+      <span id="welcomeAdmin">Welcome, Rizwan Rifat</span>
+      <a href="../auth/login.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <button type="button" id="nav-usersSection" onclick="showSection('usersSection')">Users &amp; Seller Approvals</button>
+    <button type="button" id="nav-profitSection" onclick="showSection('profitSection')">Expense &amp; Net Profit Ledger</button>
+    <button type="button" id="nav-restockSection" onclick="showSection('restockSection')">Low-Stock &amp; Purchase Orders</button>
+    <button type="button" id="nav-discountSection" onclick="showSection('discountSection')">Discount &amp; Margin Simulator</button>
+  </nav>
+
+  <main class="container">
+
+    <section id="usersSection" class="page-section">
+      <h2 class="page-title">Staff, Seller &amp; Vendor Account Management</h2>
+       <p class="page-subtitle"></p>
+
+      <div id="userMessage" class="message"></div>
+
+      <div class="row">
+
+        <div class="col">
+          <div class="card">
+            <h3 id="userFormTitle">Add / Edit User Account</h3>
+            <form id="userForm" onsubmit="return saveUser()">
+              <fieldset>
+                <legend>Account Information</legend>
+                <table class="form-table">
+                  <tr>
+                    <td><label for="userName">Full Name / Company:</label></td>
+                    <td>
+                      <input type="text" id="userName" placeholder="e.g. Tanvir Ahmed / ACI Motors">
+                      <span class="error" id="userNameError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="userEmail">Email Address:</label></td>
+                    <td>
+                      <input type="email" id="userEmail" placeholder="user@motomanage.com">
+                      <span class="error" id="userEmailError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="userPhone">Phone Number:</label></td>
+                    <td>
+                      <input type="text" id="userPhone" placeholder="017XXXXXXXX">
+                      <span class="error" id="userPhoneError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="userPassword">Password:</label></td>
+                    <td>
+                      <input type="password" id="userPassword" placeholder="Minimum 6 characters">
+                      <span class="error" id="userPasswordError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="userRole">Assign Role:</label></td>
+                    <td>
+                      <select id="userRole">
+                        <option value="">-- Select Role --</option>
+                        <option value="Admin">Admin </option>
+                        <option value="Seller">Seller </option>
+                        <option value="Vendor">Vendor </option>
+                        <option value="Customer">Customer </option>
+                      </select>
+                      <span class="error" id="userRoleError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Approval Status:</td>
+                    <td>
+                      <input type="radio" id="statusActive" name="userStatus" value="Active" checked>
+                      <label for="statusActive" class="option-label">Active</label>
+                      <input type="radio" id="statusPending" name="userStatus" value="Pending">
+                      <label for="statusPending" class="option-label">Pending</label>
+                      <input type="radio" id="statusRejected" name="userStatus" value="Rejected">
+                      <label for="statusRejected" class="option-label">Rejected</label>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" id="userSaveBtn" class="btn" value="Save Account">
+              <button type="button" class="btn btn-secondary" onclick="resetUserForm()">Clear</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Registered Users &amp; Pending Approval Requests</h3>
+            <div class="search-bar">
+              <input type="text" id="userSearch" placeholder="Search by name, email, phone or ID..." onkeyup="renderUsers()">
+              <select id="userRoleFilter" onchange="renderUsers()">
+                <option value="All">All Roles</option>
+                <option value="Admin">Admin</option>
+                <option value="Seller">Seller</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Customer">Customer</option>
+              </select>
+              <select id="userStatusFilter" onchange="renderUsers()">
+                <option value="All">All Statuses</option>
+                <option value="Pending">Pending Approval Only</option>
+                <option value="Active">Active</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+            <p class="result-count" id="userCount"></p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email &amp; Phone</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Admin Actions (Approve / Edit / Delete)</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+   
+    <section id="profitSection" class="page-section">
+      <h2 class="page-title">Showroom Expense, Net Profit &amp; Visual Analytics</h2>
+      <p class="page-subtitle"> </p>
+
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="finTotalSales">0 Tk</div>
+          <div class="stat-label">Total Sales Revenue</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="finBikeCost">0 Tk</div>
+          <div class="stat-label">Bike Purchase Cost (COGS)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="finGrossProfit">0 Tk</div>
+          <div class="stat-label">Gross Profit from Bikes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="finTotalExpenses">0 Tk</div>
+          <div class="stat-label">Total Showroom Expenses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="finNetProfit">0 Tk</div>
+          <div class="stat-label">Final Net Profit / Loss</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Showroom Expenses by Category (Tk)</h3>
+            <div id="expenseCategoryChart"></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h3>Available Bike Stock by Brand (Units)</h3>
+            <div id="brandChart"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="expenseMessage" class="message"></div>
+
+      <div class="row">
+
+        <div class="col">
+          <div class="card">
+            <h3>Record New Showroom Expense</h3>
+            <form id="expenseForm" onsubmit="return addExpense()">
+              <fieldset>
+                <legend>Expense Entry</legend>
+                <table class="form-table">
+                  <tr>
+                    <td><label for="expTitle">Expense Title:</label></td>
+                    <td>
+                      <input type="text" id="expTitle" placeholder="e.g. October Showroom Rent">
+                      <span class="error" id="expTitleError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="expCategory">Category:</label></td>
+                    <td>
+                      <select id="expCategory">
+                        <option value="Showroom Rent">Showroom Rent</option>
+                        <option value="Staff Salary">Staff Salary</option>
+                        <option value="Electricity & Utility">Electricity &amp; Utility</option>
+                        <option value="Bike Servicing & Tools">Bike Servicing &amp; Tools</option>
+                        <option value="Marketing & Promo">Marketing &amp; Promo</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="expAmount">Amount (Tk):</label></td>
+                    <td>
+                      <input type="number" id="expAmount" min="1" placeholder="e.g. 65000">
+                      <span class="error" id="expAmountError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="expDate">Date:</label></td>
+                    <td>
+                      <input type="date" id="expDate">
+                      <span class="error" id="expDateError"></span>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" class="btn" value="Add Expense &amp; Update Charts">
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Recorded Expenses Ledger</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount (Tk)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="expenseTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+ 
+    <section id="restockSection" class="page-section">
+      <h2 class="page-title">Low-Stock Radar &amp; Vendor Restock Order (PO)</h2>
+      <p class="page-subtitle">
+       
+      </p>
+
+      <div id="poMessage" class="message"></div>
+
+      <div class="row">
+
+        <div class="col">
+          <div class="card">
+            <h3>Bikes Requiring Restock (Stock &le; 2 Units)</h3>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Bike ID</th>
+                    <th>Brand &amp; Model</th>
+                    <th>Stock Left</th>
+                    <th>Status</th>
+                    <th>Quick Select</th>
+                  </tr>
+                </thead>
+                <tbody id="lowStockTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <h3>Create Vendor Purchase Order (PO)</h3>
+            <form id="poForm" onsubmit="return createPurchaseOrder()">
+              <fieldset>
+                <legend>Restock Order Details</legend>
+                <table class="form-table">
+                  <tr>
+                    <td><label for="poVendor">Select Vendor:</label></td>
+                    <td>
+                      <select id="poVendor" onchange="previewPoCost()"></select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="poBike">Select Bike Model:</label></td>
+                    <td>
+                      <select id="poBike" onchange="previewPoCost()"></select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="poQuantity">Order Quantity:</label></td>
+                    <td>
+                      <input type="number" id="poQuantity" min="1" max="50" value="5" onchange="previewPoCost()" onkeyup="previewPoCost()">
+                      <span class="error" id="poQuantityError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="poUnitCost">Vendor Unit Price (Tk):</label></td>
+                    <td>
+                      <input type="number" id="poUnitCost" onchange="previewPoCost()" onkeyup="previewPoCost()">
+                      <span class="error" id="poUnitCostError"></span>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+
+              <div class="result-box">
+                <p><strong>Live Restock Summary:</strong></p>
+                <p id="poLivePreview">Select a bike and quantity to preview total order cost and new stock level.</p>
+              </div>
+
+              <input type="submit" class="btn" value="Send Purchase Order to Vendor">
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Sent Purchase Orders &amp; Delivery Status</h3>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>PO ID</th>
+                <th>Vendor</th>
+                <th>Bike Model</th>
+                <th>Qty</th>
+                <th>Unit Cost</th>
+                <th>Total Cost</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="poHistoryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+   
+    <section id="discountSection" class="page-section">
+      <h2 class="page-title">Showroom Discount &amp; Profit-Margin Simulator</h2>
+      <p class="page-subtitle">
+        Test and apply promotional discounts on motorcycles while checking live <strong>Per-Bike Profit Margin</strong> so the shop never sells a bike at a loss.
+      </p>
+
+      <div id="discountMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3>Simulate &amp; Apply Promotional Offer</h3>
+            <form onsubmit="return applyBikeDiscount()">
+              <fieldset>
+                <legend>Promotion Calculator</legend>
+                <table class="form-table">
+                  <tr>
+                    <td><label for="simBikeId">Select Motorcycle:</label></td>
+                    <td>
+                      <select id="simBikeId" onchange="simulateMargin()"></select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="simDiscountPercent">Discount Percentage (%):</label></td>
+                    <td>
+                      <input type="number" id="simDiscountPercent" min="0" max="40" value="5" onchange="simulateMargin()" onkeyup="simulateMargin()">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="simFreeReg">Free BRTA Registration Bonus:</label></td>
+                    <td>
+                      <input type="checkbox" id="simFreeReg" onchange="simulateMargin()">
+                      <label for="simFreeReg" class="option-label">Include Free Registration Gift (Costs Shop 12,000 Tk)</label>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" class="btn" value="Apply Offer to Showroom Catalogue">
+            </form>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <h3>Live Profit vs. Loss Breakdown</h3>
+            <div class="result-box" id="marginSimulatorOutput">
+              <p>Select a motorcycle on the left to inspect its Purchase Cost, Current Selling Price, Discounted Price, and Net Profit per unit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 MotoManage Bike Shop Management System &middot; Web Technologies Course Project
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
