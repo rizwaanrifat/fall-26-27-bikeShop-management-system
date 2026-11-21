@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoManage - Vendor Supply and Order Management</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <form method="post">
+        <h3>Vendor Information</h3>
+
+        <table>
+            <tr>
+                <td><label for="fname">First name*</label></td>
+                <td><input type="text" id="fname" name="fname" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="lname">Last name*</label></td>
+                <td><input type="text" id="lname" name="lname" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="comp">Company / Vendor Name*</label></td>
+                <td><input type="text" id="comp" name="comp" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="adrs1">Address 1*</label></td>
+                <td><input type="text" id="adrs1" name="adrs1" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="adrs2">Address 2</label></td>
+                <td><input type="text" id="adrs2" name="adrs2"></td>
+            </tr>
+
+            <tr>
+                <td><label for="city">City*</label></td>
+                <td><input type="text" id="city" name="city" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="state">State*</label></td>
+                <td>
+                    <select name="state" id="state" required>
+                        <option>Select a state</option>
+                        <option>New York</option>
+                        <option>Dhaka</option>
+                        <option>Florida</option>
+                        <option>London</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="zip">Zip Code*</label></td>
+                <td><input type="number" id="zip" name="zip" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="country">Country*</label></td>
+                <td>
+                    <select name="country" id="country" required>
+                        <option>Select a Country</option>
+                        <option>Bangladesh</option>
+                        <option>Russia</option>
+                        <option>UK</option>
+                        <option>USA</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="phn">Phone*</label></td>
+                <td><input type="tel" id="phn" name="phn" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="fax">Fax*</label></td>
+                <td><input type="number" id="fax" name="fax" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="email">Email*</label></td>
+                <td><input type="email" id="email" name="email" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="bike_brand">Bike Supply Details*<br>(Select brand and specify model)</label></td>
+                <td>
+                    <input type="radio" id="bike_brand" name="bike_brand" value="yamaha">Yamaha
+                    <input type="radio" id="bike_brand" name="bike_brand" value="honda">Honda
+                    <input type="radio" id="bike_brand" name="bike_brand" value="kawasaki">Kawasaki
+                    <input type="radio" id="bike_brand" name="bike_brand" value="suzuki">Suzuki
+                    <input type="radio" id="bike_brand" name="bike_brand" value="other">Other <br>
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><label for="model_name">Bike Model Name</label>
+                    <input type="text" id="model_name" name="model_name">
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="supply_req">Supply Regular Basis<br>(Check if yes)</label></td>
+                <td><input type="checkbox" id="supply_req" name="supply_req">I am interested in supplying on a regular
+                    basis.</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    Supply Quantity: <input type="text" size="5"> Unit Price $: <input type="text" size="8">
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table>
+            <h3>Purchase Order and Invoice Information</h3>
+            <tr>
+                <td><label for="po_action">Purchase Order Action<br>(Select status)</label></td>
+                <td>
+                    <input type="radio" id="po_action" name="po_action" value="accept">Accept Order
+                    <br>
+                    <input type="radio" id="po_action" name="po_action" value="reject">Reject Order
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="po_num">Purchase Order Reference Number</label></td>
+                <td><input type="text" id="po_num" name="po_num"></td>
+            </tr>
+
+            <tr>
+                <td><label for="inv_submit">Submit Invoice for Supplied Bikes</label></td>
+                <td><input type="text" id="inv_submit" name="inv_submit"></td>
+            </tr>
+
+            <tr>
+                <td><label for="adrs_ship">Shipping Address</label></td>
+                <td><input type="text" id="adrs_ship" name="adrs_ship"></td>
+            </tr>
+
+            <tr>
+                <td><label for="ct_ship">City</label></td>
+                <td><input type="text" id="ct_ship" name="ct_ship"></td>
+            </tr>
+
+            <tr>
+                <td><label for="st_ship">State</label></td>
+                <td>
+                    <select name="st_ship" id="st_ship">
+                        <option>Select a state</option>
+                        <option>Florida</option>
+                        <option>New York</option>
+                        <option>Helsinki</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="zip_ship">Zip Code</label></td>
+                <td><input type="number" id="zip_ship" name="zip_ship"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit Supply & Invoice"><input type="reset"></td>
+            </tr>
+        </table>
+    </form>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
