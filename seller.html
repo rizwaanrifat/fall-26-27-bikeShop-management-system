@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Information</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="seller.js"></script>
+</head>
+
+<body>
+
+    <form method="post">
+
+        <h2> Bike Store Management System</h2>
+        <h3>Seller Personal Information</h3>
+
+        <table>
+            <tr>
+                <td><label for="fname">First Name*</label></td>
+                <td><input type="text" id="fname" name="fname" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="lname">Last Name*</label></td>
+                <td><input type="text" id="lname" name="lname" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="address">Address*</label></td>
+                <td><input type="text" id="address" name="address" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="city">City*</label></td>
+                <td><input type="text" id="city" name="city" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="phone">Phone Number*</label></td>
+                <td><input type="tel" id="phone" name="phone" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="email">Email*</label></td>
+                <td><input type="email" id="email" name="email" required></td>
+            </tr>
+        </table>
+
+        <h3>Bike Information</h3>
+
+        <table>
+            <tr>
+                <td><label for="bike_company">Bike Company*</label></td>
+                <td>
+                    <select name="bike_company" id="bike_company" required>
+                        <option value="">Select Bike Company</option>
+                        <option value="Yamaha">Yamaha</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Kawasaki">Kawasaki</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="model">Bike Model Name*</label></td>
+                <td><input type="text" id="model" name="model" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="cc">Bike CC*</label></td>
+                <td>
+                    <select name="cc" id="cc" required>
+                        <option value="">Select CC</option>
+                        <option value="100cc">100 CC</option>
+                        <option value="125cc">125 CC</option>
+                        <option value="150cc">150 CC</option>
+                        <option value="160cc">160 CC</option>
+                        <option value="200cc">200 CC</option>
+                        <option value="250cc">250 CC</option>
+                        <option value="300cc">300 CC</option>
+                        <option value="400cc">400 CC</option>
+                        <option value="600cc">600 CC</option>
+                        <option value="1000cc">1000 CC</option>
+                        <option value="other">Other</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>Bike Condition*</label></td>
+                <td>
+                    <input type="radio" id="new" name="condition" value="New" required>
+                    <label for="new">New</label>
+
+                    <input type="radio" id="used" name="condition" value="Used">
+                    <label for="used">Used</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="year">Manufacturing Year*</label></td>
+                <td>
+                    <input type="text" id="year" name="year" placeholder="Enter manufacturing year" required>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="mileage">Bike Mileage (KM)*</label></td>
+                <td>
+                    <input type="text" id="mileage" name="mileage" placeholder="Enter mileage in KM" required>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>Are Valid Documents Available?*</label></td>
+                <td>
+                    <input type="radio" id="doc_yes" name="documents" value="Yes" required>
+                    <label for="doc_yes">Yes</label>
+
+                    <input type="radio" id="doc_no" name="documents" value="No">
+                    <label for="doc_no">No</label>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Bike Price Information</h3>
+
+        <table>
+            <tr>
+                <td><label for="price_range">Select Price Range*</label></td>
+                <td>
+                    <select name="price_range" id="price_range" required>
+                        <option value="">Select Price Range</option>
+                        <option value="below-50000">Below 50,000 BDT</option>
+                        <option value="50000-100000">50,000 - 1,00,000 BDT</option>
+                        <option value="100000-200000">1,00,000 - 2,00,000 BDT</option>
+                        <option value="200000-300000">2,00,000 - 3,00,000 BDT</option>
+                        <option value="300000-500000">3,00,000 - 5,00,000 BDT</option>
+                        <option value="above-500000">Above 5,00,000 BDT</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>Price Negotiation*</label></td>
+                <td>
+                    <input type="radio" id="fixed" name="negotiation" value="Fixed Price" required>
+                    <label for="fixed">Fixed Price</label>
+                    <br>
+
+                    <input type="radio" id="negotiable" name="negotiation" value="Negotiable">
+                    <label for="negotiable">Negotiable</label>
+                    <br>
+
+                    <input type="radio" id="slightly" name="negotiation" value="Slightly Negotiable">
+                    <label for="slightly">Slightly Negotiable</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="description">Bike Description</label></td>
+                <td>
+                    <textarea id="description" name="description" rows="4" cols="30"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Submit Bike Details">
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+</body>
+
+</html>
