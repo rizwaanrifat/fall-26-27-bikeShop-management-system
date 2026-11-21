@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoManage - Customer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div>
+                <h1>MotoManage</h1>
+                <p class="subtitle">Bike Shop Customer Dashboard</p>
+            </div>
+            <div class="user-box">
+                <p class="user-name">Asifur Rahman</p>
+                <p class="user-role">Customer Account</p>
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="nav">
+            <a href="#browse">1. Browse &amp; Compare</a>
+            <a href="#wishlist">2. Wishlist &amp; Price Alerts</a>
+            <a href="#bookings">3. Test Ride Bookings</a>
+        </nav>
+
+        <!-- SIMPLE PRICE-DROP NOTICE -->
+        <div id="priceDropNotice" class="notice hidden"></div>
+
+        <!-- =======================================================
+             SECTION 1: BIKE BROWSING & COMPARISON
+             ======================================================= -->
+        <section id="browse" class="card">
+            <h2>1. Bike Browsing &amp; Comparison</h2>
+            <p class="section-desc">Search, filter, view details, and compare available motorcycles.</p>
+
+            <form id="filterForm" class="form-box">
+                <div class="form-row">
+                    <div class="field">
+                        <label for="searchBike">Search Bike</label>
+                        <input type="text" id="searchBike" placeholder="Brand, model, year, CC, or price">
+                    </div>
+
+                    <div class="field">
+                        <label for="brandFilter">Brand</label>
+                        <select id="brandFilter">
+                            <option value="ALL">All Brands</option>
+                            <option value="Yamaha">Yamaha</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Kawasaki">Kawasaki</option>
+                            <option value="Suzuki">Suzuki</option>
+                            <option value="Royal Enfield">Royal Enfield</option>
+                            <option value="BMW">BMW</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="ccFilter">Engine CC</label>
+                        <select id="ccFilter">
+                            <option value="ALL">All CC Ranges</option>
+                            <option value="100-160">100cc - 160cc</option>
+                            <option value="161-350">161cc - 350cc</option>
+                            <option value="351-650">351cc - 650cc</option>
+                            <option value="651+">651cc and above</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="yearFilter">Model Year</label>
+                        <select id="yearFilter">
+                            <option value="ALL">All Years</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="maxPrice">Maximum Price ($)</label>
+                        <input type="number" id="maxPrice" value="25000" min="0">
+                        <span id="maxPriceError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="sortBy">Sort By</label>
+                        <select id="sortBy">
+                            <option value="default">Default</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="cc-desc">Engine CC: High to Low</option>
+                            <option value="year-desc">Year: Newest First</option>
+                            <option value="drop-desc">Biggest Price Drop</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" class="btn btn-primary">Search Bikes</button>
+                    <button type="button" id="resetFilterBtn" class="btn btn-light">Reset Filters</button>
+                </div>
+            </form>
+
+            <h3>Available Motorcycles</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bike ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                            <th>Engine CC</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Compare</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bikeTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="btn-row">
+                <button type="button" id="compareBtn" class="btn btn-primary">Compare Selected Bikes</button>
+                <button type="button" id="clearCompareBtn" class="btn btn-light">Clear Comparison</button>
+            </div>
+            <p id="compareMessage" class="status-msg"></p>
+
+            <!-- SIMPLE BIKE DETAIL BOX -->
+            <div id="bikeDetailBox" class="detail-box hidden">
+                <div class="detail-top">
+                    <h3 id="detailTitle">Bike Details</h3>
+                    <button type="button" id="closeDetailBtn" class="btn btn-light btn-sm">Close</button>
+                </div>
+                <p id="detailDesc"></p>
+                <div id="detailSpecs" class="detail-grid"></div>
+            </div>
+
+            <h3>Bike Specification Comparison</h3>
+            <div class="table-wrap">
+                <table id="comparisonTable"></table>
+            </div>
+        </section>
+
+        <!-- =======================================================
+             SECTION 2: WISHLIST & PRICE-DROP ALERTS
+             ======================================================= -->
+        <section id="wishlist" class="card">
+            <h2>2. Wishlist &amp; Price-Drop Alerts</h2>
+            <p class="section-desc">Save favourite bikes, track price drops, and manage your custom price alerts.</p>
+
+            <div class="toolbar">
+                <h3>My Saved Wishlist</h3>
+                <input type="text" id="wishlistSearch" class="search-small" placeholder="Search wishlist...">
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bike ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Previous Price</th>
+                            <th>Current Price</th>
+                            <th>Price Drop</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wishlistTableBody"></tbody>
+                </table>
+            </div>
+
+            <h3 id="alertFormTitle">Set Price-Drop Alert</h3>
+            <form id="alertForm" class="form-box">
+                <input type="hidden" id="editAlertId">
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="alertBike">Select Bike *</label>
+                        <select id="alertBike">
+                            <option value="">Select a Bike</option>
+                        </select>
+                        <span id="alertBikeError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="alertEmail">Email Address *</label>
+                        <input type="email" id="alertEmail" value="asifur.rahman@example.com">
+                        <span id="alertEmailError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="targetPrice">Target Price ($) *</label>
+                        <input type="number" id="targetPrice" placeholder="Enter target price">
+                        <span id="targetPriceError" class="error-text"></span>
+                    </div>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="notifyPriceDrop" checked>
+                    <label for="notifyPriceDrop">Notify me when the bike price drops</label>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" id="alertSubmitBtn" class="btn btn-primary">Save Price Alert</button>
+                    <button type="button" id="alertResetBtn" class="btn btn-light">Reset</button>
+                </div>
+                <p id="alertMessage" class="status-msg"></p>
+            </form>
+
+            <div class="toolbar">
+                <h3>My Price-Drop Alerts</h3>
+                <input type="text" id="alertSearch" class="search-small" placeholder="Search alerts...">
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Alert ID</th>
+                            <th>Bike</th>
+                            <th>Email</th>
+                            <th>Current Price</th>
+                            <th>Target Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertsTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =======================================================
+             SECTION 3: TEST RIDE BOOKINGS
+             ======================================================= -->
+        <section id="bookings" class="card">
+            <h2>3. Test Ride Bookings</h2>
+            <p class="section-desc">Schedule a showroom test ride, reschedule pending requests, or cancel pending bookings.</p>
+
+            <h3 id="bookingFormTitle">Schedule Test Ride</h3>
+            <form id="bookingForm" class="form-box">
+                <input type="hidden" id="editBookingId">
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" value="Asifur Rahman">
+                        <span id="customerNameError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="customerPhone">Phone Number *</label>
+                        <input type="tel" id="customerPhone" value="01711-000000">
+                        <span id="customerPhoneError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="customerEmail">Email Address *</label>
+                        <input type="email" id="customerEmail" value="asifur.rahman@example.com">
+                        <span id="customerEmailError" class="error-text"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="rideBike">Select Motorcycle *</label>
+                        <select id="rideBike">
+                            <option value="">Select a Motorcycle</option>
+                        </select>
+                        <span id="rideBikeError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="rideDate">Preferred Date *</label>
+                        <input type="date" id="rideDate">
+                        <span id="rideDateError" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="rideTime">Time Slot *</label>
+                        <select id="rideTime">
+                            <option value="">Select Time Slot</option>
+                            <option value="Morning (10:00 AM - 12:00 PM)">Morning (10:00 AM - 12:00 PM)</option>
+                            <option value="Afternoon (02:00 PM - 04:00 PM)">Afternoon (02:00 PM - 04:00 PM)</option>
+                            <option value="Evening (05:00 PM - 07:00 PM)">Evening (05:00 PM - 07:00 PM)</option>
+                        </select>
+                        <span id="rideTimeError" class="error-text"></span>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" id="bookingSubmitBtn" class="btn btn-primary">Submit Reservation</button>
+                    <button type="button" id="bookingResetBtn" class="btn btn-light">Reset</button>
+                </div>
+                <p id="bookingMessage" class="status-msg"></p>
+            </form>
+
+            <div class="toolbar">
+                <h3>My Test Ride Booking History</h3>
+                <div class="toolbar-right">
+                    <input type="text" id="bookingSearch" class="search-small" placeholder="Search by ID, bike, date...">
+                    <select id="bookingStatusFilter" class="select-small">
+                        <option value="ALL">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Motorcycle</th>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>MotoManage Customer Support</p>
+        </footer>
+    </div>
+
+    <script src="customer.js"></script>
+</body>
+
+</html>
