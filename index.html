@@ -1,1 +1,226 @@
-<h1>Bike Shop Management System</h1>
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bike Shop: search motorcycles, check live stock, book test rides and sell bikes">
+  <title>Home | Bike Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="auth/admin.css">
+</head>
+<body>
+  <header class="header"></header>
+    <header class="header home-header">
+    <a href="index.html" class="logo">Bike<span>Shop</span></a>
+    <div class="user-info">
+      <a href="auth/login.html" class="btn btn-small btn-light">Login</a>
+      <a href="auth/register.html" class="btn btn-small">Register</a>
+    </div>
+  </header>
+  <nav class="topnav">
+    <a href="index.html" class="active">Home</a>
+    <a href="#search">Bike Catalogue</a>
+    <a href="#who">Who It's For</a>
+    <a href="#how">How It Works</a>
+    <a href="#hours">Showroom Hours</a>
+    <a href="#contact">Contact Us</a>
+  </nav>
+
+
+  <div class="hero">
+    <h1>FIND YOUR DREAM BIKE </h1>
+    <p>Search live showroom inventory in seconds, compare specs, book a test ride, or list your own bike for sale with one account.</p>
+
+    <div class="hero-search">
+      <input type="text" id="catalogSearch" placeholder="Search by model, brand or CC (e.g. R15, CBR, 155cc)..." onkeyup="renderCatalog()">
+      <select id="catalogCategory" onchange="renderCatalog()">
+        <option value="All">All categories</option>
+        <option value="Sport">Sport</option>
+        <option value="Naked">Hyper Naked</option>
+        <option value="Cruiser">Cruiser</option>
+        <option value="Commuter">Commuter</option>
+        <option value="Adventure">Adventure</option>
+      </select>
+    </div>
+    <p class="hero-note">No account needed to browse stock. <a href="#search" class="hero-link">See available bikes &darr;</a></p>
+  </div>
+
+  <main class="container">
+
+    
+    <div class="feature-strip">
+      
+      <div class="feature">
+        <span class="feature-icon">&#10003;</span>
+        <h3>Free test rides</h3>
+        <p>Pick your preferred date and time slot online and track approval status easily.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">6+</span>
+        <h3>Official brands</h3>
+        <p>Yamaha, Honda, Suzuki, Royal Enfield, KTM and Kawasaki under one roof.</p>
+      </div>
+    </div>
+
+<section id="search" class="home-section">
+      <div class="section-heading">
+        <h2>Showroom Bike Catalogue</h2>
+        <p>Type in the search box above, or pick a bike category.</p>
+      </div>
+      <div class="card">
+        <p class="result-count" id="catalogCount"></p>
+
+        <div id="catalogBody" class="bike-grid"></div>
+
+        <p class="hint">Want to book a test ride, compare bikes or save to wishlist?
+          <a href="auth/register.html">Create a free customer account</a> or
+          <a href="auth/login.html">log in</a>.
+        </p>
+      </div>
+    </section>
+
+
+    <section id="who" class="home-section">
+      <div class="section-heading">
+        <h2>Who is MotoManage for?</h2>
+        <p>Choose your role when you register. Everyone logs in from the same page.</p>
+      </div>
+
+      <div class="role-grid">
+        <div class="role-card student">
+          <span class="badge student">Customer</span>
+          <h3>Customers / Buyers</h3>
+          <ul>
+            <li>Compare 2 or 3 bikes side by side</li>
+            <li>Save bikes to wishlist with price alerts</li>
+            <li>Book a showroom test-ride slot online</li>
+            <li>Calculate on-road price and monthly EMI</li>
+          </ul>
+          <a href="auth/register.html" class="btn btn-success">Register as Customer</a>
+        </div>
+
+        <div class="role-card librarian">
+          <span class="badge librarian">Seller</span>
+          <h3>Bike Sellers</h3>
+          <ul>
+            <li>List motorcycles and promotional offers</li>
+            <li>Reply to customer questions and inquiries</li>
+            <li>Record bike sales and update stock</li>
+            <li>Generate and print customer sales invoices</li>
+          </ul>
+          <a href="auth/register.html" class="btn btn-success">Apply as Seller</a>
+        </div>
+
+        <div class="role-card visitor">
+          <span class="badge visitor">Vendor</span>
+          <h3>Vendors / Suppliers</h3>
+          <ul>
+            <li>Submit new bike supply proposals</li>
+            <li>Accept or reject Admin purchase orders</li>
+            <li>Deliver stock to showroom inventory</li>
+            <li>Submit supplier invoices for payment</li>
+          </ul>
+          <a href="auth/register.html" class="btn btn-success">Apply as Vendor</a>
+        </div>
+
+        <div class="role-card admin">
+          <span class="badge admin">Admin</span>
+          <h3>Shop Owner (Admin)</h3>
+          <ul>
+            <li>Approve new Sellers and Vendors</li>
+            <li>Manage all accounts and bike inventory</li>
+            <li>Record shop expenses and net profit</li>
+            <li>Send restock orders for low-stock bikes</li>
+          </ul>
+          <a href="auth/login.html" class="btn">Admin Login</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="home-section">
+      <div class="section-heading">
+        <h2>How it works</h2>
+        <p>Three simple steps from registration to riding.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-number">1</span>
+          <h3>Register</h3>
+          <p>Open <a href="auth/register.html">Register</a>, choose Customer, Seller or Vendor,
+             and fill in your details. Sellers and Vendors wait as Pending for Admin approval.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <h3>Log in</h3>
+          <p>Use the <a href="auth/login.html">single login page</a>. MotoManage opens your role-specific dashboard
+             automatically based on your account.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <h3>Buy, Sell or Manage</h3>
+          <p>Book test rides, compare motorcycles, process showroom sales, or fulfill vendor purchase orders
+             right from your dashboard.</p>
+        </div>
+      </div>
+    </section>
+
+  
+    <div class="row">
+      <section id="hours" class="col home-section">
+        <div class="card">
+          <h3>Showroom &amp; Test Ride Hours</h3>
+          <div class="reminder">
+            <h4>Saturday &ndash; Wednesday</h4>
+            <p>Showroom: 9:30 AM &ndash; 8:30 PM &middot; Test Rides: 10:00 AM &ndash; 6:00 PM</p>
+          </div>
+          <div class="reminder">
+            <h4>Thursday</h4>
+            <p>Showroom: 9:30 AM &ndash; 9:00 PM &middot; Test Rides: 10:00 AM &ndash; 6:00 PM</p>
+          </div>
+          <div class="reminder">
+            <h4>Friday</h4>
+            <p>Showroom: 3:00 PM &ndash; 8:30 PM &middot; Test Rides: 3:30 PM &ndash; 6:00 PM</p>
+          </div>
+          <p class="hint">Please bring a valid driving license or learner permit for showroom test rides.</p>
+        </div>
+      </section>
+
+      <section id="contact" class="col home-section">
+        <div class="card">
+          <h3>Contact Us</h3>
+          <p><strong>MotoManage Flagship Dealership</strong><br>
+             Authorized Multi-Brand Motorcycle Showroom &amp; Service Center</p>
+          <div class="result-box">
+            <ul class="read-list">
+              <li><strong>Address:</strong> 408/1 Kuratoli Road, Kuril, Khilkhet, Dhaka 1229, Bangladesh</li>
+              <li><strong>Sales Hotline:</strong> +880 1700-112233, +88 02 841 4046</li>
+              <li><strong>Email:</strong> <a href="mailto:support@motomanage.com">support@motomanage.com</a></li>
+              <li><strong>Website:</strong> <a href="index.html">www.motomanage.com</a></li>
+            </ul>
+          </div>
+          <p class="hint">Need help with a bike inquiry or seller approval? Visit our showroom front desk.</p>
+        </div>
+      </section>
+    </div>
+
+
+    <section class="home-section">
+      <div class="cta-band">
+        <h2>Ready to ride or sell a motorcycle?</h2>
+        <p>It takes less than two minutes to create your account.</p>
+        <a href="auth/register.html" class="btn btn-light">Create an account</a>
+        <a href="auth/login.html" class="btn btn-secondary">I already have one</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 Bike Shop &middot; CSC 3215 Web Technologies
+  </footer>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

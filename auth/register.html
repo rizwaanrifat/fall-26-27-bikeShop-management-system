@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a Bike Shop account">
+  <title>Register | Bike Shop</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="logo">Bike<span>Shop</span></a>
+    <div class="user-info">
+      <a href="login.html" class="btn btn-small btn-light">Login</a>
+      <a href="register.html" class="btn btn-small">Register</a>
+    </div>
+  </header>
+
+  
+  <nav class="topnav">
+    <a href="../index.html">Home</a>
+    <a href="index.html#search">Bike Catalogue</a>
+    <a href="index.html#who">Who It's For</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="index.html#hours">Showroom Hours</a>
+    <a href="index.html#contact">Contact Us</a>
+  </nav>
+
+  <main class="container">
+    <div class="auth-box wide">
+      <div class="card">
+        <h2 class="page-title">Create your account</h2>
+
+        <div id="registerMessage" class="message"></div>
+
+        <form id="registerForm" action="login.html" method="get" onsubmit="return validateRegister()">
+
+    
+          <fieldset>
+            <legend>Step 1 &middot; I want to register as *</legend>
+            <div class="type-grid">
+              <label class="type-option" id="typeCardCustomer" for="typeCustomer">
+                <input type="radio" id="typeCustomer" name="userType" value="Customer" onchange="showTypeFields()">
+                <strong>Customer</strong>
+                <span class="hint">Browse &amp; compare bikes, save to wishlist and book test rides.</span>
+              </label>
+              <label class="type-option" id="typeCardSeller" for="typeSeller">
+                <input type="radio" id="typeSeller" name="userType" value="Seller" onchange="showTypeFields()">
+                <strong>Seller</strong>
+                <span class="hint">List bikes for sale, answer inquiries and create invoices. Needs admin approval.</span>
+              </label>
+              <label class="type-option" id="typeCardVendor" for="typeVendor">
+                <input type="radio" id="typeVendor" name="userType" value="Vendor" onchange="showTypeFields()">
+                <strong>Vendor</strong>
+                <span class="hint">Supply motorcycles to the shop and fulfill purchase orders. Needs admin approval.</span>
+              </label>
+            </div>
+            <span class="error" id="userTypeError"></span>
+            <p class="hint">Shop admins are added by an existing admin from the Admin panel.</p>
+          </fieldset>
+
+          <div id="formBody" class="form-body">
+
+            <fieldset>
+              <legend>Step 2 &middot; Personal information</legend>
+              <table class="form-table">
+                <tr>
+                  <td><label for="fullName">Full Name: *</label></td>
+                  <td>
+                    <input type="text" id="fullName" name="fullName" placeholder="Your full name">
+                    <span class="error" id="fullNameError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="email">Email: *</label></td>
+                  <td>
+                    <input type="email" id="email" name="email" placeholder="you@example.com">
+                    <span class="error" id="emailError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="phone">Phone: *</label></td>
+                  <td>
+                    <input type="tel" id="phone" name="phone" placeholder="11 digits, e.g. 01712345678">
+                    <span class="error" id="phoneError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Gender: *</td>
+                  <td>
+                    <input type="radio" id="genderMale" name="gender" value="Male">
+                    <label for="genderMale" class="option-label">Male</label>
+                    <input type="radio" id="genderFemale" name="gender" value="Female">
+                    <label for="genderFemale" class="option-label">Female</label>
+                    <input type="radio" id="genderOther" name="gender" value="Other">
+                    <label for="genderOther" class="option-label">Prefer not to say</label>
+                    <span class="error" id="genderError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="dob">Date of Birth: *</label></td>
+                  <td>
+                    <input type="date" id="dob" name="dob">
+                    <span class="error" id="dobError"></span>
+                  </td>
+                </tr>
+              </table>
+            </fieldset>
+
+            <fieldset id="customerFields" class="type-fields">
+              <legend>Step 3 &middot; Customer &amp; rider details</legend>
+              <table class="form-table">
+                <tr>
+                  <td><label for="licenseNo">Driving License / Learner No: *</label></td>
+                  <td>
+                    <input type="text" id="licenseNo" name="licenseNo" placeholder="e.g. DL-23-51234 (Required for test rides)">
+                    <span class="error" id="licenseNoError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="preferredBranch">Preferred Showroom: *</label></td>
+                  <td>
+                    <select id="preferredBranch" name="preferredBranch">
+                      <option value="">-- Select Showroom Branch --</option>
+                      <option value="Kuril Flagship">Kuril Flagship Showroom</option>
+                      <option value="Tejgaon Branch">Tejgaon Industrial Branch</option>
+                      <option value="Mirpur Branch">Mirpur Service &amp; Sales Center</option>
+                      <option value="Uttara Branch">Uttara Showroom</option>
+                    </select>
+                    <span class="error" id="preferredBranchError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="budgetRange">Budget Range (Tk): *</label></td>
+                  <td>
+                    <select id="budgetRange" name="budgetRange">
+                      <option value="">-- Select Budget Range --</option>
+                      <option value="Under 2,50,000 Tk">Under 2,50,000 Tk</option>
+                      <option value="2,50,000 - 4,00,000 Tk">2,50,000 - 4,00,000 Tk</option>
+                      <option value="4,00,000 - 6,00,000 Tk">4,00,000 - 6,00,000 Tk</option>
+                      <option value="Above 6,00,000 Tk">Above 6,00,000 Tk</option>
+                    </select>
+                    <span class="error" id="budgetRangeError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Favourite Bike Types:</td>
+                  <td>
+                    <input type="checkbox" id="favSport" name="favouriteBike" value="Sport">
+                    <label for="favSport" class="option-label">Sport</label>
+                    <input type="checkbox" id="favNaked" name="favouriteBike" value="Naked">
+                    <label for="favNaked" class="option-label">Hyper Naked</label>
+                    <input type="checkbox" id="favCruiser" name="favouriteBike" value="Cruiser">
+                    <label for="favCruiser" class="option-label">Cruiser</label>
+                    <input type="checkbox" id="favCommuter" name="favouriteBike" value="Commuter">
+                    <label for="favCommuter" class="option-label">Commuter</label>
+                  </td>
+                </tr>
+              </table>
+            </fieldset>
+
+            <fieldset id="sellerFields" class="type-fields">
+              <legend>Step 3 &middot; Seller details</legend>
+              <table class="form-table">
+                <tr>
+                  <td><label for="sellerNid">Seller ID / NID No: *</label></td>
+                  <td>
+                    <input type="text" id="sellerNid" name="sellerNid" placeholder="e.g. SLR-1234 or 10-digit NID">
+                    <span class="error" id="sellerNidError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="sellerType">Seller Category: *</label></td>
+                  <td>
+                    <select id="sellerType" name="sellerType">
+                      <option value="">-- Select Seller Category --</option>
+                      <option value="Showroom Sales Executive">Showroom Sales Executive</option>
+                      <option value="Personal Bike Seller">Individual / Personal Bike Owner</option>
+                      <option value="Certified Reseller">Certified Reconditioned Bike Reseller</option>
+                    </select>
+                    <span class="error" id="sellerTypeError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="experience">Sales Experience (years): *</label></td>
+                  <td>
+                    <input type="number" id="experience" name="experience" min="0" max="40" placeholder="0 - 40">
+                    <span class="error" id="experienceError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Preferred Duty Shift: *</td>
+                  <td>
+                    <input type="radio" id="shiftMorning" name="shift" value="Morning">
+                    <label for="shiftMorning" class="option-label">Morning (9 AM - 3 PM)</label>
+                    <input type="radio" id="shiftEvening" name="shift" value="Evening">
+                    <label for="shiftEvening" class="option-label">Evening (3 PM - 9 PM)</label>
+                    <span class="error" id="shiftError"></span>
+                  </td>
+                </tr>
+              </table>
+              <p class="hint">Seller accounts are verified by an admin. You can log in and list bikes after approval.</p>
+            </fieldset>
+
+            <fieldset id="vendorFields" class="type-fields">
+              <legend>Step 3 &middot; Vendor / Supplier details</legend>
+              <table class="form-table">
+                <tr>
+                  <td><label for="tradeLicense">Trade License No: *</label></td>
+                  <td>
+                    <input type="text" id="tradeLicense" name="tradeLicense" placeholder="e.g. TRAD-DHAKA-98765">
+                    <span class="error" id="tradeLicenseError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="suppliedBrand">Primary Brand Supplied: *</label></td>
+                  <td>
+                    <select id="suppliedBrand" name="suppliedBrand">
+                      <option value="">-- Select Motorcycle Brand --</option>
+                      <option value="Yamaha">Yamaha</option>
+                      <option value="Honda">Honda</option>
+                      <option value="Suzuki">Suzuki</option>
+                      <option value="Royal Enfield">Royal Enfield</option>
+                      <option value="KTM">KTM</option>
+                      <option value="Kawasaki">Kawasaki</option>
+                    </select>
+                    <span class="error" id="suppliedBrandError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="companyName">Company / Agency Name: *</label></td>
+                  <td>
+                    <input type="text" id="companyName" name="companyName" placeholder="e.g. ACI Motors Ltd. / Uttara Motors">
+                    <span class="error" id="companyNameError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="warehouseAddress">Warehouse / Office Address: *</label></td>
+                  <td>
+                    <textarea id="warehouseAddress" name="warehouseAddress" rows="3" cols="30" placeholder="Plot, road, industrial area, city"></textarea>
+                    <span class="error" id="warehouseAddressError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Supply Capabilities:</td>
+                  <td>
+                    <input type="checkbox" id="supNewBikes" name="supplyType" value="Brand New Motorcycles">
+                    <label for="supNewBikes" class="option-label">Brand New Motorcycles</label>
+                    <input type="checkbox" id="supSpareParts" name="supplyType" value="Genuine Spare Parts">
+                    <label for="supSpareParts" class="option-label">Genuine Spare Parts</label>
+                    <input type="checkbox" id="supSafetyGear" name="supplyType" value="Helmets &amp; Safety Gear">
+                    <label for="supSafetyGear" class="option-label">Helmets &amp; Safety Gear</label>
+                  </td>
+                </tr>
+              </table>
+              <p class="hint">Vendor accounts are reviewed by an admin before receiving official Purchase Orders.</p>
+            </fieldset>
+
+            <fieldset>
+              <legend>Step 4 &middot; Login details</legend>
+              <table class="form-table">
+                <tr>
+                  <td><label for="newUsername">Username: *</label></td>
+                  <td>
+                    <input type="text" id="newUsername" name="newUsername" placeholder="At least 4 characters, no spaces">
+                    <span class="error" id="newUsernameError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="newPassword">Password: *</label></td>
+                  <td>
+                    <input type="password" id="newPassword" placeholder="At least 8 characters with a digit" onkeyup="showPasswordStrength()">
+                    <span class="hint" id="strengthText"></span>
+                    <span class="error" id="newPasswordError"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="confirmPassword">Confirm Password: *</label></td>
+                  <td>
+                    <input type="password" id="confirmPassword" placeholder="Type the password again">
+                    <span class="error" id="confirmPasswordError"></span>
+                  </td>
+                </tr>
+              </table>
+            </fieldset>
+
+            <p>
+              <input type="checkbox" id="terms" name="terms" onchange="toggleRegisterButton()">
+              <label for="terms" class="option-label">I agree to the dealership showroom rules and terms *</label>
+            </p>
+
+            <div class="form-buttons">
+              <input type="submit" id="registerButton" class="btn" value="Create Account" disabled>
+              <input type="reset" class="btn btn-secondary" value="Start Again" onclick="resetRegisterForm()">
+            </div>
+          </div>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Login here</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 MotoManage Bike Shop &middot; CSC 3215 Web Technologies
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/register.js"></script>
+</body>
+</html>
